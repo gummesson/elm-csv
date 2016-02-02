@@ -3,9 +3,6 @@ module Tests where
 import Csv
 import ElmTest as Test exposing (Test)
 
-import String
-import List
-
 
 all : Test
 all =
