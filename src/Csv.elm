@@ -65,4 +65,19 @@ splitLine line =
     values =
       String.split "," line
   in
-    List.map String.trim values
+    List.map (trimQuotes << String.trim) values
+
+
+trimQuotes : String -> String
+trimQuotes value =
+  let
+    start =
+      String.startsWith "\"" value
+
+    end =
+      String.endsWith "\"" value
+  in
+    if start && end then
+      String.dropRight 1 <| String.dropLeft 1 value
+    else
+      value
