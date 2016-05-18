@@ -1,4 +1,4 @@
-module Csv (Csv, parse, split) where
+module Csv exposing (Csv, parse, split)
 
 {-| A CSV parser.
 
