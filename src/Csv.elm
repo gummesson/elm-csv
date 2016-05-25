@@ -1,14 +1,15 @@
-module Csv exposing (Csv, parse, split)
+module Csv exposing (Csv, parse, parseWith, split, splitWith)
 
 {-| A CSV parser.
 
 ## Parser
-@docs Csv, parse, split
+@docs Csv, parseWith, parse, split, splitWith
 -}
 
 import List
 import String
 import Maybe
+import Regex
 
 
 {-| The `Csv` type structure.
@@ -26,10 +27,17 @@ type alias Csv =
     Csv.parse "id,value\n1,one\n2,two\n"
 -}
 parse : String -> Csv
-parse lines =
+parse = parseWith ","
+
+{-| Convert a string of values separated by a *separator* into a `Csv` structure.
+
+    -- { headers = ["id", "value"], records = [["1", "one"], ["2", "two"]] }
+    Csv.parseWith "," "id,value\n1,one\n2,two\n"
+-}
+parseWith : String -> String -> Csv
+parseWith separator lines =
   let
-    values =
-      split lines
+    values = splitWith separator lines
 
     headers =
       List.head values
@@ -50,24 +58,43 @@ parse lines =
     Csv.split "id,value\n1,one\n2,two\n"
 -}
 split : String -> List (List String)
-split lines =
+split = splitWith ","
+
+{-| Convert a string of values separated by a character into a list of lists.
+
+    -- [["id", "value"], ["1", "one"], ["2", "two"]]
+    Csv.splitWith "," "id,value\n1,one\n2,two\n"
+-}
+splitWith : String -> String -> List (List String)
+splitWith separator lines =
   let
     values =
       String.lines lines
         |> List.filter (\x -> not (String.isEmpty x))
   in
-    List.map splitLine values
+    List.map (splitLineWith separator) values
 
 
+{-| Split a CSV line, with the traditional comma separator
+-}
 splitLine : String -> List String
-splitLine line =
+splitLine = splitLineWith ","
+
+{-| Split a CSV line with the given separator
+-}
+splitLineWith : String -> String -> List String
+splitLineWith separator line =
   let
     values =
-      String.split "," line
+      String.split separator line
   in
     List.map (trimQuotes << String.trim) values
 
+{-| Extract text from a csv field
 
+  trimQuotes "abc" == "abc"
+  trimQuotes "\"this is a \"\"test\"\" ! \"" == "This is a \"test\" ! "
+-}
 trimQuotes : String -> String
 trimQuotes value =
   let
@@ -78,6 +105,9 @@ trimQuotes value =
       String.endsWith "\"" value
   in
     if start && end then
-      String.dropRight 1 <| String.dropLeft 1 value
+      -- Replace escaped quotes like "" and \"
+      Regex.replace Regex.All (Regex.regex "[\"\\\\]\"") (always "\"") value
+        |> String.dropRight 1
+        |> String.dropLeft 1
     else
       value
