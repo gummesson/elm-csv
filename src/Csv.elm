@@ -15,9 +15,9 @@ import Regex
 {-| The `Csv` type structure.
 -}
 type alias Csv =
-  { headers : List String
-  , records : List (List String)
-  }
+    { headers : List String
+    , records : List (List String)
+    }
 
 
 {-| Convert a string of comma-separated values into a `Csv` structure.
@@ -27,7 +27,9 @@ type alias Csv =
     Csv.parse "id,value\n1,one\n2,two\n"
 -}
 parse : String -> Csv
-parse = parseWith ","
+parse =
+    parseWith ","
+
 
 {-| Convert a string of values separated by a *separator* into a `Csv` structure.
 
@@ -36,19 +38,20 @@ parse = parseWith ","
 -}
 parseWith : String -> String -> Csv
 parseWith separator lines =
-  let
-    values = splitWith separator lines
+    let
+        values =
+            splitWith separator lines
 
-    headers =
-      List.head values
-        |> Maybe.withDefault []
+        headers =
+            List.head values
+                |> Maybe.withDefault []
 
-    records =
-      List.drop 1 values
-  in
-    { headers = headers
-    , records = records
-    }
+        records =
+            List.drop 1 values
+    in
+        { headers = headers
+        , records = records
+        }
 
 
 {-| Convert a string of comma-separated values into a list of lists.
@@ -58,7 +61,9 @@ parseWith separator lines =
     Csv.split "id,value\n1,one\n2,two\n"
 -}
 split : String -> List (List String)
-split = splitWith ","
+split =
+    splitWith ","
+
 
 {-| Convert a string of values separated by a character into a list of lists.
 
@@ -67,28 +72,31 @@ split = splitWith ","
 -}
 splitWith : String -> String -> List (List String)
 splitWith separator lines =
-  let
-    values =
-      String.lines lines
-        |> List.filter (\x -> not (String.isEmpty x))
-  in
-    List.map (splitLineWith separator) values
+    let
+        values =
+            String.lines lines
+                |> List.filter (\x -> not (String.isEmpty x))
+    in
+        List.map (splitLineWith separator) values
 
 
 {-| Split a CSV line, with the traditional comma separator
 -}
 splitLine : String -> List String
-splitLine = splitLineWith ","
+splitLine =
+    splitLineWith ","
+
 
 {-| Split a CSV line with the given separator
 -}
 splitLineWith : String -> String -> List String
 splitLineWith separator line =
-  let
-    values =
-      String.split separator line
-  in
-    List.map (trimQuotes << String.trim) values
+    let
+        values =
+            String.split separator line
+    in
+        List.map (trimQuotes << String.trim) values
+
 
 {-| Extract text from a csv field
 
@@ -97,17 +105,17 @@ splitLineWith separator line =
 -}
 trimQuotes : String -> String
 trimQuotes value =
-  let
-    start =
-      String.startsWith "\"" value
+    let
+        start =
+            String.startsWith "\"" value
 
-    end =
-      String.endsWith "\"" value
-  in
-    if start && end then
-      -- Replace escaped quotes like "" and \"
-      Regex.replace Regex.All (Regex.regex "[\"\\\\]\"") (always "\"") value
-        |> String.dropRight 1
-        |> String.dropLeft 1
-    else
-      value
+        end =
+            String.endsWith "\"" value
+    in
+        if start && end then
+            -- Replace escaped quotes like "" and \"
+            Regex.replace Regex.All (Regex.regex "[\"\\\\]\"") (always "\"") value
+                |> String.dropRight 1
+                |> String.dropLeft 1
+        else
+            value
