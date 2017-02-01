@@ -22,9 +22,14 @@ type alias Csv =
 
 {-| Convert a string of comma-separated values into a `Csv` structure.
 
-    -- { headers = ["id", "value"], records = [["1", "one"], ["2", "two"]] }
-
-    Csv.parse "id,value\n1,one\n2,two\n"
+    >>> parse "id,value\n1,one\n2,two\n"
+    {
+      headers = ["id", "value"],
+      records = [
+                    ["1", "one"],
+                    ["2", "two"]
+                ]
+    }
 -}
 parse : String -> Csv
 parse =
@@ -33,8 +38,14 @@ parse =
 
 {-| Convert a string of values separated by a *separator* into a `Csv` structure.
 
-    -- { headers = ["id", "value"], records = [["1", "one"], ["2", "two"]] }
-    Csv.parseWith "," "id,value\n1,one\n2,two\n"
+    >>> parseWith ";" "id;value\n1;one\n2;two\n"
+    {
+      headers = ["id", "value"],
+      records = [
+                    ["1", "one"],
+                    ["2", "two"]
+                ]
+    }
 -}
 parseWith : String -> String -> Csv
 parseWith separator lines =
@@ -56,9 +67,8 @@ parseWith separator lines =
 
 {-| Convert a string of comma-separated values into a list of lists.
 
-    -- [["id", "value"], ["1", "one"], ["2", "two"]]
-
-    Csv.split "id,value\n1,one\n2,two\n"
+    >>> split "id,value\n1,one\n2,two\n"
+    [["id", "value"], ["1", "one"], ["2", "two"]]
 -}
 split : String -> List (List String)
 split =
@@ -67,8 +77,8 @@ split =
 
 {-| Convert a string of values separated by a character into a list of lists.
 
-    -- [["id", "value"], ["1", "one"], ["2", "two"]]
-    Csv.splitWith "," "id,value\n1,one\n2,two\n"
+    >>> splitWith "," "id,value\n1,one\n2,two\n"
+    [["id", "value"], ["1", "one"], ["2", "two"]]
 -}
 splitWith : String -> String -> List (List String)
 splitWith separator lines =

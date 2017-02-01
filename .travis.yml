@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "4"
+  - "6"
 before_script:
-  - cd test
-  - npm install -g elm elm-test
-  - elm-package install -y
-script: elm-test TestRunner.elm
+  - npm install -g elm elm-test elm-doc-test
+  - elm-test init
+  - elm-doc-test
+script: elm-test tests/Doc/Main.elm
