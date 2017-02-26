@@ -30,6 +30,27 @@ type alias Csv =
                     ["2", "two"]
                 ]
     }
+
+Values that contain the character ',' can be quoted
+
+    >>> parse "id,value\n\"1,2,3\",\"one,two,three\"\n"
+    {
+      headers = ["id", "value"],
+      records = [
+                    ["1,2,3", "one,two,three"]
+                ]
+    }
+
+Double quotes can be escaped with a backslash or a second quote
+
+    >>> parse "value\n,Here is a quote:\"\"\nAnother one:\\\"\n"
+    {
+      headers = ["value"],
+      records = [
+                    ["Here is a quote:\""],
+                    ["Another one:\""]
+                ]
+    }
 -}
 parse : String -> Csv
 parse =
