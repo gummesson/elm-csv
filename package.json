@@ -1,0 +1,16 @@
+{
+  "name": "elm-csv",
+  "version": "0.0.0",
+  "description": "csv parser for elm",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "elm-doc-test && elm-test init && elm-test tests/Doc/Main.elm"
+  },
+  "devDependencies": {
+    "elm": "^0.18.0",
+    "elm-doc-test": "^2.2.3",
+    "elm-test": "^0.18.2"
+  }
+}
