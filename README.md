@@ -18,8 +18,8 @@ For usage, see the [documentation][docs-url].
 
 [MIT][license-url]
 
-[travis-img]: https://img.shields.io/travis/gummesson/elm-csv.svg?style=flat-square
-[travis-url]: https://travis-ci.org/gummesson/elm-csv
-[docs-url]: http://package.elm-lang.org/packages/gummesson/elm-csv/latest
-[license-url]: https://github.com/gummesson/elm-csv/blob/master/LICENSE
+[travis-img]: https://img.shields.io/travis/lovasoa/elm-csv.svg?style=flat-square
+[travis-url]: https://travis-ci.org/lovasoa/elm-csv
+[docs-url]: http://package.elm-lang.org/packages/lovasoa/elm-csv/latest/Csv
+[license-url]: https://github.com/lovasoa/elm-csv/blob/master/LICENSE
 [elm-lang]: http://elm-lang.org/
