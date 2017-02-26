@@ -1,9 +1,13 @@
 module Csv exposing (Csv, parse, parseWith, split, splitWith)
 
-{-| A CSV parser.
+{-| A CSV parser that supports different separators, and quoted fields.
+The results are provided as lists.
 
-## Parser
-@docs Csv, parseWith, parse, split, splitWith
+## Definitions
+@docs Csv
+
+## Parsing functions
+@docs parseWith, parse, split, splitWith
 -}
 
 import List
