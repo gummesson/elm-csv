@@ -5,7 +5,7 @@ tags
 elm.js
 bundle.*
 *.log
-	tests/.gitignore
-	tests/Doc/
-        tests/*elm
-	tests/elm-package.json
+tests/.gitignore
+tests/Doc/
+tests/*elm
+tests/elm-package.json
