@@ -91,6 +91,9 @@ splitWith separator lines =
 
 
 {-| Split a CSV line, with the traditional comma separator
+
+    >>> splitLine "hello,world"
+    ["hello", "world"]
 -}
 splitLine : String -> List String
 splitLine =
@@ -98,6 +101,15 @@ splitLine =
 
 
 {-| Split a CSV line with the given separator
+
+    >>> splitLineWith " " "a b"
+    ["a", "b"]
+
+    >>> splitLineWith " " "a \"b\""
+    ["a", "b"]
+
+    >>> splitLineWith " " "a \"b c\""
+    ["a", "b c"]
 -}
 splitLineWith : String -> String -> List String
 splitLineWith separator line =
