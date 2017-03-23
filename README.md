@@ -7,7 +7,7 @@ A CSV parser for [Elm][elm-lang].
 ## Installation
 
 ```
-elm-package install gummesson/elm-csv
+elm-package install lovasoa/elm-csv
 ```
 
 ## Usage
