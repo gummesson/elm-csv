@@ -5,8 +5,8 @@ import Regex
 
 {-| Split a CSV line, with the traditional comma separator
 
-    >>> splitLine "hello,world"
-    ["hello", "world"]
+    splitLine "hello,world"
+    --> ["hello", "world"]
 
 -}
 splitLine : String -> List String
@@ -16,35 +16,35 @@ splitLine =
 
 {-| Split a CSV line with the given separator
 
-    >>> splitLineWith " " "a b"
-    ["a", "b"]
+    splitLineWith " " "a b"
+    --> ["a", "b"]
 
-    >>> splitLineWith " " "a b "
-    ["a", "b", ""]
+    splitLineWith " " "a b "
+    --> ["a", "b", ""]
 
-    >>> splitLineWith " " "a \"b\""
-    ["a", "b"]
+    splitLineWith " " "a \"b\""
+    --> ["a", "b"]
 
-    >>> splitLineWith " " "a \"\"b"
-    ["a", "\"b"]
+    splitLineWith " " "a \"\"b"
+    --> ["a", "\"b"]
 
-    >>> splitLineWith " " "a \\\"b"
-    ["a", "\"b"]
+    splitLineWith " " "a \\\"b"
+    --> ["a", "\"b"]
 
-    >>> splitLineWith " " "a b\"c\"d e"
-    ["a", "b\"c\"d", "e"]
+    splitLineWith " " "a b\"c\"d e"
+    --> ["a", "b\"c\"d", "e"]
 
-    >>> splitLineWith " " "a \"b c\""
-    ["a", "b c"]
+    splitLineWith " " "a \"b c\""
+    --> ["a", "b c"]
 
-    >>> splitLineWith "" "abc"
-    ["abc"]
+    splitLineWith "" "abc"
+    --> ["abc"]
 
-    >>> splitLineWith "" ""
-    []
+    splitLineWith "" ""
+    --> []
 
-    >>> String.repeat 1000000 "a," |> splitLineWith ","
-    (List.repeat 1000000 "a") ++ [""]
+    String.repeat 1000000 "a," |> splitLineWith ","
+    --> (List.repeat 1000000 "a") ++ [""]
 
 -}
 splitLineWith : String -> String -> List String

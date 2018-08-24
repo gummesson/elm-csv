@@ -6,6 +6,6 @@ elm.js
 bundle.*
 *.log
 tests/.gitignore
-tests/Doc/
+tests/VerifyExamples/
 tests/*elm
 tests/elm-package.json
