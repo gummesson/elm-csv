@@ -1,20 +1,28 @@
-module Csv exposing (Csv, parse, parseWith, split, splitWith)
+module Csv exposing
+    ( Csv
+    , parseWith, parse, split, splitWith
+    )
 
 {-| A CSV parser that supports different separators, and quoted fields.
 The results are provided as lists.
 
+
 ## Definitions
+
 @docs Csv
 
+
 ## Parsing functions
+
 @docs parseWith, parse, split, splitWith
+
 -}
 
-import List
-import String
-import Maybe
-
 import Helper exposing (..)
+import List
+import Maybe
+import String
+
 
 {-| The `Csv` type structure.
 -}
@@ -55,13 +63,14 @@ Double quotes can be escaped with a backslash or a second quote
                     ["Another one:\""]
                 ]
     }
+
 -}
 parse : String -> Csv
 parse =
     parseWith ","
 
 
-{-| Convert a string of values separated by a *separator* into a `Csv` structure.
+{-| Convert a string of values separated by a _separator_ into a `Csv` structure.
 
     >>> parseWith ";" "id;value\n1;one\n2;two\n"
     {
@@ -71,6 +80,7 @@ parse =
                     ["2", "two"]
                 ]
     }
+
 -}
 parseWith : String -> String -> Csv
 parseWith separator lines =
@@ -85,15 +95,16 @@ parseWith separator lines =
         records =
             List.drop 1 values
     in
-        { headers = headers
-        , records = records
-        }
+    { headers = headers
+    , records = records
+    }
 
 
 {-| Convert a string of comma-separated values into a list of lists.
 
     >>> split "id,value\n1,one\n2,two\n"
     [["id", "value"], ["1", "one"], ["2", "two"]]
+
 -}
 split : String -> List (List String)
 split =
@@ -104,6 +115,7 @@ split =
 
     >>> splitWith "," "id,value\n1,one\n2,two\n"
     [["id", "value"], ["1", "one"], ["2", "two"]]
+
 -}
 splitWith : String -> String -> List (List String)
 splitWith separator lines =
@@ -112,6 +124,4 @@ splitWith separator lines =
             String.lines lines
                 |> List.filter (\x -> not (String.isEmpty x))
     in
-        List.map (splitLineWith separator) values
-
-
+    List.map (splitLineWith separator) values

@@ -6,11 +6,12 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "elm-doc-test && elm-test init && elm-test tests/Doc/Main.elm"
+    "test": "./node_modules/.bin/elm-verify-examples && ./node_modules/.bin/elm-test tests/Doc/Tests.elm"
   },
   "devDependencies": {
-    "elm": "^0.18.0",
-    "elm-doc-test": "^2.2.3",
-    "elm-test": "^0.18.2"
+    "elm": "^0.19.0",
+    "elm-format": "^0.8.0",
+    "elm-test": "^0.19.0-beta4",
+    "elm-verify-examples": "^3.0.0"
   }
 }
