@@ -1,6 +1,12 @@
+sudo: false
 language: node_js
 node_js:
-  - "6"
-before_script:
-  - npm install
-script: ./node_modules/.bin/elm-verify-examples
+  - "node"
+
+cache:
+  directories:
+    - elm-stuff/build-artifacts
+    - node_modules
+
+script:
+  - npm test
