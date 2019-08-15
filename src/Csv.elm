@@ -122,6 +122,6 @@ splitWith separator lines =
     let
         values =
             String.lines lines
-                |> List.filter (\x -> not (String.isEmpty x))
+                |> List.filter (not << String.isEmpty)
     in
     List.map (splitLineWith separator) values
