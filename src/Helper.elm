@@ -1,6 +1,7 @@
 module Helper exposing (parseRemaining, splitLine, splitLineWith)
 
-import Regex
+{-| Helper functions
+-}
 
 
 {-| Split a CSV line, with the traditional comma separator
