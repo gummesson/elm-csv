@@ -9,7 +9,7 @@
     "test": "./node_modules/.bin/elm-verify-examples"
   },
   "devDependencies": {
-    "elm": "^0.19.1-4",
+    "elm": "^0.19.1-5",
     "elm-format": "^0.8.4",
     "elm-test": "^0.19.1",
     "elm-verify-examples": "^5.0.0"
