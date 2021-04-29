@@ -1,43 +1,100 @@
-module Csv (Csv, parse, split) where
+module Csv exposing
+    ( Csv
+    , parseWith, parse, split, splitWith
+    )
 
-{-| A CSV parser.
+{-| A CSV parser that supports different separators, and quoted fields.
+The results are provided as lists.
 
-## Parser
-@docs Csv, parse, split
+
+## Definitions
+
+@docs Csv
+
+
+## Parsing functions
+
+@docs parseWith, parse, split, splitWith
+
 -}
 
+import Helper exposing (..)
 import List
-import String
 import Maybe
+import String
 
 
 {-| The `Csv` type structure.
 -}
 type alias Csv =
-  { headers : List String
-  , records : List (List String)
-  }
+    { headers : List String
+    , records : List (List String)
+    }
 
 
 {-| Convert a string of comma-separated values into a `Csv` structure.
 
-    -- { headers = ["id", "value"], records = [["1", "one"], ["2", "two"]] }
+    parse "id,value\n1,one\n2,two\n"
+    --> {
+    -->  headers = ["id", "value"],
+    -->  records = [
+    -->                ["1", "one"],
+    -->                ["2", "two"]
+    -->            ]
+    --> }
 
-    Csv.parse "id,value\n1,one\n2,two\n"
+Values that contain the character ',' can be quoted
+
+    parse "id,value\n\"1,2,3\",\"one,two,three\"\n"
+    --> {
+    -->  headers = ["id", "value"],
+    -->  records = [
+    -->                ["1,2,3", "one,two,three"]
+    -->            ]
+    --> }
+
+Double quotes can be escaped with a backslash or a second quote
+
+    parse "value\n,Here is a quote:\"\"\nAnother one:\\\"\n"
+    --> {
+    -->  headers = ["value"],
+    -->  records = [
+    -->                ["Here is a quote:\""],
+    -->                ["Another one:\""]
+    -->            ]
+    --> }
+
 -}
 parse : String -> Csv
-parse lines =
-  let
-    values =
-      split lines
+parse =
+    parseWith ","
 
-    headers =
-      List.head values
-        |> Maybe.withDefault []
 
-    records =
-      List.drop 1 values
-  in
+{-| Convert a string of values separated by a _separator_ into a `Csv` structure.
+
+    parseWith ";" "id;value\n1;one\n2;two\n"
+    --> {
+    -->  headers = ["id", "value"],
+    -->  records = [
+    -->                ["1", "one"],
+    -->                ["2", "two"]
+    -->            ]
+    --> }
+
+-}
+parseWith : String -> String -> Csv
+parseWith separator lines =
+    let
+        values =
+            splitWith separator lines
+
+        headers =
+            List.head values
+                |> Maybe.withDefault []
+
+        records =
+            List.drop 1 values
+    in
     { headers = headers
     , records = records
     }
@@ -45,39 +102,26 @@ parse lines =
 
 {-| Convert a string of comma-separated values into a list of lists.
 
-    -- [["id", "value"], ["1", "one"], ["2", "two"]]
+    split "id,value\n1,one\n2,two\n"
+    --> [["id", "value"], ["1", "one"], ["2", "two"]]
 
-    Csv.split "id,value\n1,one\n2,two\n"
 -}
 split : String -> List (List String)
-split lines =
-  let
-    values =
-      String.lines lines
-        |> List.filter (\x -> not (String.isEmpty x))
-  in
-    List.map splitLine values
+split =
+    splitWith ","
 
 
-splitLine : String -> List String
-splitLine line =
-  let
-    values =
-      String.split "," line
-  in
-    List.map (trimQuotes << String.trim) values
+{-| Convert a string of values separated by a character into a list of lists.
 
+    splitWith "," "id,value\n1,one\n2,two\n"
+    --> [["id", "value"], ["1", "one"], ["2", "two"]]
 
-trimQuotes : String -> String
-trimQuotes value =
-  let
-    start =
-      String.startsWith "\"" value
-
-    end =
-      String.endsWith "\"" value
-  in
-    if start && end then
-      String.dropRight 1 <| String.dropLeft 1 value
-    else
-      value
+-}
+splitWith : String -> String -> List (List String)
+splitWith separator lines =
+    let
+        values =
+            String.lines lines
+                |> List.filter (not << String.isEmpty)
+    in
+    List.map (splitLineWith separator) values
