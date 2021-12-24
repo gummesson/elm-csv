@@ -1,8 +1,12 @@
+sudo: false
 language: node_js
 node_js:
-  - "4"
-before_script:
-  - cd test
-  - npm install -g elm elm-test
-  - elm-package install -y
-script: elm-test TestRunner.elm
+  - "node"
+
+cache:
+  directories:
+    - elm-stuff/build-artifacts
+    - node_modules
+
+script:
+  - npm test
